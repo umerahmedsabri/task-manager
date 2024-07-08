@@ -6,6 +6,10 @@ import { Task } from './types/Task';
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
   const fetchTasks = async () => {
     try {
       const response = await fetch('http://localhost:5000/tasks');
@@ -20,10 +24,6 @@ const App: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
   const handleAddTask = async (title: string) => {
     try {
       const response = await fetch('http://localhost:5000/tasks', {
@@ -35,7 +35,8 @@ const App: React.FC = () => {
       });
 
       if (response.ok) {
-        fetchTasks();
+        const newTask = await response.json();
+        setTasks((prevTasks) => [...prevTasks, newTask]);
       } else {
         console.error('Failed to add task');
       }
@@ -51,7 +52,7 @@ const App: React.FC = () => {
       });
 
       if (response.ok) {
-        fetchTasks();
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
       } else {
         console.error('Failed to delete task');
       }
@@ -71,7 +72,9 @@ const App: React.FC = () => {
       });
 
       if (response.ok) {
-        fetchTasks();
+        setTasks((prevTasks) =>
+          prevTasks.map((task) => (task.id === id ? { ...task, title: newTitle } : task))
+        );
       } else {
         console.error('Failed to update task');
       }
@@ -81,8 +84,15 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Task Manager</h1>
+    <div
+      style={{
+        maxWidth: '800px',
+        margin: '0 auto',
+        padding: '20px',
+        fontFamily: 'Arial, sans-serif',
+      }}
+    >
+      <h1 style={{ textAlign: 'center', marginBottom: '20px', color: '#333' }}>Task Manager</h1>
       <AddTask onAdd={handleAddTask} />
       <TaskList tasks={tasks} onDelete={handleDeleteTask} onEdit={handleEditTask} />
     </div>

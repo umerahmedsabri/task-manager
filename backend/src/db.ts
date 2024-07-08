@@ -9,12 +9,12 @@ const pool = new Pool({
 });
 
 pool.on('connect', () => {
-    console.log('Connected to the database');
-  });
+  console.log('Connected to the database');
+});
 
-  pool.on('error', (err, client) => {
-    console.error('Error connecting to the database:', err);
-    client.release();
-  });
+pool.on('error', (err, client) => {
+  console.error('Error connecting to the database:', err);
+  client.release();
+});
 
 export default pool;

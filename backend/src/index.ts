@@ -6,7 +6,6 @@ const app = express();
 const port = 5000;
 
 app.use(cors());
-
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -16,8 +15,17 @@ app.get('/', (req, res) => {
 app.post('/tasks', async (req, res) => {
   const { title } = req.body;
   try {
-    const result = await pool.query('INSERT INTO tasks (title, completed) VALUES ($1, $2) RETURNING id', [title, false]);
-    res.status(201).json({ id: result.rows[0].id, title, completed: false });
+    const existingTask = await pool.query('SELECT * FROM tasks WHERE title = $1', [title]);
+    if (existingTask.rows.length > 0) {
+      res.status(409).send('Task already exists');
+      return;
+    }
+
+    const result = await pool.query(
+      'INSERT INTO tasks (title, completed) VALUES ($1, $2) RETURNING id, title, completed',
+      [title, false]
+    );
+    res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error('Error executing query', err);
     res.status(500).send('Error creating task');
@@ -38,8 +46,11 @@ app.put('/tasks/:id', async (req, res) => {
   const { id } = req.params;
   const { title, completed } = req.body;
   try {
-    await pool.query('UPDATE tasks SET title = $1, completed = $2 WHERE id = $3', [title, completed, id]);
-    res.sendStatus(204);
+    const result = await pool.query(
+      'UPDATE tasks SET title = $1, completed = $2 WHERE id = $3 RETURNING id, title, completed',
+      [title, completed, id]
+    );
+    res.json(result.rows[0]);
   } catch (err) {
     console.error('Error executing query', err);
     res.status(500).send('Error updating task');
