@@ -1,46 +1,70 @@
-# Getting Started with Create React App
+# Task Manager 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simple task manager application built with a modern frontend and a robust backend. It allows users to efficiently manage their tasks with features like creation, viewing, editing, and deletion.
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+This section provides a detailed guide on setting up and running the application. 
 
-### `npm start`
+### Prerequisites
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* **Node.js and npm:** Ensure you have Node.js and npm (Node Package Manager) installed on your system. You can download and install them from the official Node.js website [https://nodejs.org/en](https://nodejs.org/en).
+* **PostgreSQL server:**  A PostgreSQL server needs to be running and accessible for the application to connect to the database. Refer to the official PostgreSQL documentation [https://www.postgresql.org/files/documentation/pdf/15/postgresql-15-A4.pdf](https://www.postgresql.org/files/documentation/pdf/15/postgresql-15-A4.pdf) for installation and configuration instructions.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Setup Instructions
 
-### `npm test`
+1. **Clone the Repository:**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```bash
+   git clone https://github.com/your-username/task-manager.git
+   ```
 
-### `npm run build`
+   Replace `https://github.com/umerahmedsabri/task-manager.git` with the actual URL of your cloned repository.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. **Navigate to Project Directory:**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   ```bash
+   cd task-manager
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Install Dependencies:**
 
-### `npm run eject`
+   ```bash
+   npm install
+   ```
+   This command downloads and installs all the necessary libraries and dependencies required to run the application.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+4. **Configure Database Connection:**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   Create a file named `.env` in the project root directory. This file will store your database connection details securely. Add the following environment variables to the `.env` file, replacing the placeholders with your actual database credentials:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+   ```
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USER=your_username
+   DB_PASSWORD=your_password
+   DB_NAME=task_manager
+   ```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Running the application
 
-## Learn More
+1. **Start PostgreSQL Server:**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   Ensure your PostgreSQL server is running and accessible before proceeding.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   This command executes database migrations to create the necessary tables required by the application in your PostgreSQL database.
+
+2. **Start the Development Server:**
+
+   ```bash
+   npm start
+   ```
+
+   This command starts the development server. By default, the application runs on port `5000`. You can access the application in your web browser at [https://localhost:5000/](https://localhost:5000/).
+
+### Features
+
+* **Create Tasks:** Effortlessly add new tasks to your list.
+* **View Tasks:** View a comprehensive list of all your tasks.
+* **Edit Tasks:** Edit existing tasks, including the title and completion status.
+* **Delete Tasks:** Remove tasks from your list when they're no longer needed.
