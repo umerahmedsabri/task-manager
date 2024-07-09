@@ -12,7 +12,7 @@ const App: React.FC = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch('http://localhost:5000/tasks');
+      const response = await fetch('http://localhost:5000/api/tasks');
       if (response.ok) {
         const data = await response.json();
         setTasks(data);
@@ -26,7 +26,7 @@ const App: React.FC = () => {
 
   const handleAddTask = async (title: string) => {
     try {
-      const response = await fetch('http://localhost:5000/tasks', {
+      const response = await fetch('http://localhost:5000/api/tasks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const App: React.FC = () => {
 
   const handleDeleteTask = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:5000/tasks/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/tasks/${id}`, {
         method: 'DELETE',
       });
 
@@ -63,7 +63,7 @@ const App: React.FC = () => {
 
   const handleEditTask = async (id: number, newTitle: string) => {
     try {
-      const response = await fetch(`http://localhost:5000/tasks/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/tasks/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -72,8 +72,11 @@ const App: React.FC = () => {
       });
 
       if (response.ok) {
+        const updatedTask = await response.json();
         setTasks((prevTasks) =>
-          prevTasks.map((task) => (task.id === id ? { ...task, title: newTitle } : task))
+          prevTasks.map((task) =>
+            task.id === id ? updatedTask : task
+          )
         );
       } else {
         console.error('Failed to update task');
@@ -92,7 +95,7 @@ const App: React.FC = () => {
         fontFamily: 'Arial, sans-serif',
       }}
     >
-      <h1 style={{ textAlign: 'center', marginBottom: '20px', color: '#333' }}>Task Manager</h1>
+      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Task Manager</h1>
       <AddTask onAdd={handleAddTask} />
       <TaskList tasks={tasks} onDelete={handleDeleteTask} onEdit={handleEditTask} />
     </div>

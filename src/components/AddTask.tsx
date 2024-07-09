@@ -13,7 +13,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
     if (title.trim()) {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:5000/tasks', {
+        const response = await fetch('http://localhost:5000/api/tasks', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
